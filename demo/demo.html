@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <title>angular-ui-sortable-multiselection</title>
+
+    <link rel="stylesheet" href="css/demo.css" media="screen" type="text/css" />
+
+</head>
+
+<body>
+
+  <div ng-app="sortableApp" ng-controller="sortableController" class="container">
+  <h2>angular-ui-sortable-multiselection</h2>
+
+  <div class="floatleft">
+    <div ui-sortable="sortableOptions" ng-model="list" class="list">
+      <div ui-sortable-selectable ng-repeat="item in list" class="item">
+        {{item.text}}
+      </div>
+    </div>
+  </div>
+
+  <div class="floatleft" style="margin-left: 20px;">
+    <ul class="list logList">
+      <li ng-repeat="entry in sortingLog track by $index" class="logItem">
+        {{entry}}
+      </li>
+    </ul>
+  </div>
+
+  <div class="clear"></div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+  <script src="../src/ui.sortable.multiselection.js"></script>
+</div>
+
+  <script src="js/demo.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "angular-ui-sortable-multiselection",
+  "version": "0.1.0",
+  "description": "This directive allows multiple element sorting in UI-Sortable.",
+  "author": "https://github.com/thgreasi/ui-sortable-multiselection/graphs/contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/thgreasi/ui-sortable-multiselection",
+  "main": "./src/ui.sortable.multiselection.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thgreasi/ui-sortable-multiselection.git"
+  }
+}
