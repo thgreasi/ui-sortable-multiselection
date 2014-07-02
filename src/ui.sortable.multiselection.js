@@ -18,6 +18,43 @@ angular.module('ui.sortable.multiselection', [])
   .factory('uiSortableMultiSelectionMethods', [
     'uiSortableMultiSelectionClass',
     function (selectedItemClass) {
+      function fixIndex (oldPosition, newPosition, x) {
+        if (oldPosition < newPosition && oldPosition < x && x <= newPosition) {
+          return x - 1;
+        } else if (newPosition < oldPosition && newPosition <= x && x < oldPosition) {
+          return x + 1;
+        }
+        return x;
+      }
+
+      function groupIndexes (indexes, oldPosition, newPosition) {
+        var above = [],
+            below = [];
+
+        for (var i = 0; i < indexes.length; i++) {
+          var x = indexes[i];
+          if (x < oldPosition) {
+            above.push(fixIndex(oldPosition, newPosition, x));
+          } else if (oldPosition < x) {
+            below.push(fixIndex(oldPosition, newPosition, x));
+          }
+        }
+
+        return {
+          above: above,
+          below: below
+        };
+      }
+
+      function getModelsFromIndexes (ngModel, indexes) {
+        var result = [];
+        for (var i = indexes.length - 1; i >= 0; i--) {
+          result.push(ngModel.splice(indexes[i], 1)[0]);
+        }
+        result.reverse();
+        return result;
+      }
+
       return {
         helper: function (e, item) {
           // when starting to sort an unhighlighted item ,
@@ -55,50 +92,13 @@ angular.module('ui.sortable.multiselection', [])
           var ngModel = ui.item.parent().scope().$eval(ui.item.parent().attr('ng-model')),
               oldPosition = ui.item.sortable.index,
               newPosition = ui.item.sortable.dropindex;
-          
-          function fixIndex (x) {
-            if (oldPosition < newPosition && oldPosition < x && x <= newPosition) {
-              return x - 1;
-            } else if (newPosition < oldPosition && newPosition <= x && x < oldPosition) {
-              return x + 1;
-            }
-            return x;
-          }
-
-          function groupIndexes (indexes) {
-            var above = [],
-                below = [];
-
-            for (var i = 0; i < indexes.length; i++) {
-              var x = indexes[i];
-              if (x < oldPosition) {
-                above.push(fixIndex(x));
-              } else if (oldPosition < x) {
-                below.push(fixIndex(x));
-              }
-            }
-
-            return {
-              above: above,
-              below: below
-            };
-          }
-
-          function getModelsFromIndexes (indexes) {
-            var result = [];
-            for (var i = indexes.length - 1; i >= 0; i--) {
-              result.push(ngModel.splice(indexes[i], 1)[0]);
-            }
-            result.reverse();
-            return result;
-          }
 
           var draggedElementIndexes = ui.item.sortableMultiSelect.indexes;
           if (!draggedElementIndexes.length) {
             return;
           }
 
-          var indexes = groupIndexes(draggedElementIndexes);
+          var indexes = groupIndexes(draggedElementIndexes, oldPosition, newPosition);
 
           // get the model of the dragged item
           // so that we can locate its position
@@ -108,8 +108,8 @@ angular.module('ui.sortable.multiselection', [])
           // the code should run in reverse order,
           // so that the indexes will not break
           var models = {
-            below: getModelsFromIndexes(indexes.below),
-            above: getModelsFromIndexes(indexes.above)
+            below: getModelsFromIndexes(ngModel, indexes.below),
+            above: getModelsFromIndexes(ngModel, indexes.above)
           };
         
           Array.prototype.splice.apply(
