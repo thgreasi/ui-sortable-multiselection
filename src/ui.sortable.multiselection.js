@@ -116,9 +116,6 @@ angular.module('ui.sortable.multiselection', [])
           ui.item.sortableMultiSelect.sourceElement = ui.item.parent();
         },
         update: function(e, ui) {
-          if(!ui.item.sortable.received) {
-
-          }
           if (ui.item.sortable.received && !ui.item.sortable.isCanceled()) {
             var scope = ui.item.sortable.droptarget.scope();
 
@@ -162,7 +159,7 @@ angular.module('ui.sortable.multiselection', [])
         },
         stop: function (e, ui) {
           if (!ui.item.sortable.received &&
-             ('dropindex' in ui.item.sortable) &&
+             // ('dropindex' in ui.item.sortable) &&
              !ui.item.sortable.isCanceled()) {
             var sourceElement = ui.item.sortableMultiSelect.sourceElement || ui.item.parent(),
                 ngModel = sourceElement.scope().$eval(sourceElement.attr('ng-model')),
@@ -172,6 +169,10 @@ angular.module('ui.sortable.multiselection', [])
             var draggedElementIndexes = ui.item.sortableMultiSelect.indexes;
             if (!draggedElementIndexes.length) {
               return;
+            }
+
+            if (newPosition === undefined) {
+              newPosition = oldPosition;
             }
 
             var indexes = groupIndexes(draggedElementIndexes, oldPosition, newPosition);
