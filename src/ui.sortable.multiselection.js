@@ -19,9 +19,9 @@ angular.module('ui.sortable.multiselection', [])
     'uiSortableMultiSelectionClass',
     function (selectedItemClass) {
       function fixIndex (oldPosition, newPosition, x) {
-        if (oldPosition < newPosition && oldPosition < x && x <= newPosition) {
+        if (oldPosition < x && (newPosition === undefined || (oldPosition < newPosition && x <= newPosition))) {
           return x - 1;
-        } else if (newPosition < oldPosition && newPosition <= x && x < oldPosition) {
+        } else if (x < oldPosition && (newPosition === undefined || (newPosition < oldPosition && newPosition <= x))) {
           return x + 1;
         }
         return x;
@@ -88,41 +88,96 @@ angular.module('ui.sortable.multiselection', [])
           var helper = angular.element('<' + helperTag + '/>');
           return helper.append(elements);
         },
-        stop: function (e, ui) {
-          var ngModel = ui.item.parent().scope().$eval(ui.item.parent().attr('ng-model')),
-              oldPosition = ui.item.sortable.index,
-              newPosition = ui.item.sortable.dropindex;
+        start: function(e, ui) {
+          ui.item.sortableMultiSelect.sourceElement = ui.item.parent();
+        },
+        update: function(e, ui) {
+          if(!ui.item.sortable.received) {
 
-          var draggedElementIndexes = ui.item.sortableMultiSelect.indexes;
-          if (!draggedElementIndexes.length) {
-            return;
           }
+          if (ui.item.sortable.received && !ui.item.sortable.isCanceled()) {
+            var scope = ui.item.sortable.droptarget.scope();
 
-          var indexes = groupIndexes(draggedElementIndexes, oldPosition, newPosition);
+            scope.$apply(function () {
+              var ngModel = scope.$eval(ui.item.sortable.droptarget.attr('ng-model')),
+                  newPosition = ui.item.sortable.dropindex,
+                  models = ui.item.sortableMultiSelect.moved;
 
-          // get the model of the dragged item
-          // so that we can locate its position
-          // after we remove the co-dragged elements
-          var draggedModel = ngModel[newPosition];
+              // add the models to the target list
+              Array.prototype.splice.apply(
+                ngModel,
+                [newPosition+ 1, 0]
+                .concat(models.below));
+
+              Array.prototype.splice.apply(
+                ngModel,
+                [newPosition, 0]
+                .concat(models.above));
+            });
+          }
+        },
+        remove: function(e, ui) {
+          if (!ui.item.sortable.isCanceled()) {
+            var scope = ui.item.sortableMultiSelect.sourceElement.scope();
+
+            scope.$apply(function () {
+              var ngModel = scope.$eval(ui.item.sortableMultiSelect.sourceElement.attr('ng-model')),
+                  oldPosition = ui.item.sortable.index;
+
+              var indexes = groupIndexes(ui.item.sortableMultiSelect.indexes, oldPosition);
+
+              // get the models and remove them from the original list
+              // the code should run in reverse order,
+              // so that the indexes will not break
+              ui.item.sortableMultiSelect.moved = {
+                below: getModelsFromIndexes(ngModel, indexes.below),
+                above: getModelsFromIndexes(ngModel, indexes.above)
+              };
+            });
+          }
+        },
+        stop: function (e, ui) {
+          if (!ui.item.sortable.received &&
+             ('dropindex' in ui.item.sortable) &&
+             !ui.item.sortable.isCanceled()) {
+            var sourceElement = ui.item.sortableMultiSelect.sourceElement || ui.item.parent(),
+                ngModel = sourceElement.scope().$eval(sourceElement.attr('ng-model')),
+                oldPosition = ui.item.sortable.index,
+                newPosition = ui.item.sortable.dropindex;
+
+            var draggedElementIndexes = ui.item.sortableMultiSelect.indexes;
+            if (!draggedElementIndexes.length) {
+              return;
+            }
+
+            var indexes = groupIndexes(draggedElementIndexes, oldPosition, newPosition);
+
+            // get the model of the dragged item
+            // so that we can locate its position
+            // after we remove the co-dragged elements
+            var draggedModel = ngModel[newPosition];
+            
+            // get the models and remove them from the list
+            // the code should run in reverse order,
+            // so that the indexes will not break
+            var models = {
+              below: getModelsFromIndexes(ngModel, indexes.below),
+              above: getModelsFromIndexes(ngModel, indexes.above)
+            };
           
-          // the code should run in reverse order,
-          // so that the indexes will not break
-          var models = {
-            below: getModelsFromIndexes(ngModel, indexes.below),
-            above: getModelsFromIndexes(ngModel, indexes.above)
-          };
-        
-          Array.prototype.splice.apply(
-            ngModel,
-            [ngModel.indexOf(draggedModel) + 1, 0]
-            .concat(models.below));
+            // add the models to the list
+            Array.prototype.splice.apply(
+              ngModel,
+              [ngModel.indexOf(draggedModel) + 1, 0]
+              .concat(models.below));
 
-           Array.prototype.splice.apply(
-            ngModel,
-            [ngModel.indexOf(draggedModel), 0]
-            .concat(models.above));
+            Array.prototype.splice.apply(
+              ngModel,
+              [ngModel.indexOf(draggedModel), 0]
+              .concat(models.above));
 
-          ui.item.parent().find('> .' + selectedItemClass).removeClass('' + selectedItemClass).show();
+            ui.item.parent().find('> .' + selectedItemClass).removeClass('' + selectedItemClass).show();
+          }
         }
       };
     }]);
