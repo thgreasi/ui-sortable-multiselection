@@ -55,7 +55,31 @@ angular.module('ui.sortable.multiselection', [])
         return result;
       }
 
+      function combineCallbacks(first,second){
+        if(second && (typeof second === 'function')) {
+          return function(e, ui) {
+            first(e, ui);
+            second(e, ui);
+          };
+        }
+        return first;
+      }
+
       return {
+        extendOptions: function (sortableOptions) {
+          sortableOptions = sortableOptions || {};
+          var result = $.extend({}, this, sortableOptions);
+
+          for (var prop in sortableOptions) {
+            if (sortableOptions.hasOwnProperty(prop)) {
+              if (this[prop]) {
+                result[prop] = combineCallbacks(this[prop], sortableOptions[prop]);
+              }
+            }
+          }
+
+          return result;
+        },
         helper: function (e, item) {
           // when starting to sort an unhighlighted item ,
           // deselect any existing highlighted items
