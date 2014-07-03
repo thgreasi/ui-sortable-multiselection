@@ -46,13 +46,21 @@ angular.module('ui.sortable.multiselection', [])
         };
       }
 
-      function getModelsFromIndexes (ngModel, indexes) {
+      function extractModelsFromIndexes (ngModel, indexes) {
         var result = [];
         for (var i = indexes.length - 1; i >= 0; i--) {
           result.push(ngModel.splice(indexes[i], 1)[0]);
         }
         result.reverse();
         return result;
+      }
+
+      function extractGroupedModelsFromIndexes (ngModel, aboveIndexes, belowIndexes) {
+        var models = {
+          below: extractModelsFromIndexes(ngModel, belowIndexes),
+          above: extractModelsFromIndexes(ngModel, aboveIndexes)
+        };
+        return models;
       }
 
       function combineCallbacks(first,second){
@@ -68,7 +76,7 @@ angular.module('ui.sortable.multiselection', [])
       return {
         extendOptions: function (sortableOptions) {
           sortableOptions = sortableOptions || {};
-          var result = $.extend({}, this, sortableOptions);
+          var result = angular.extend({}, this, sortableOptions);
 
           for (var prop in sortableOptions) {
             if (sortableOptions.hasOwnProperty(prop)) {
@@ -150,10 +158,7 @@ angular.module('ui.sortable.multiselection', [])
               // get the models and remove them from the original list
               // the code should run in reverse order,
               // so that the indexes will not break
-              ui.item.sortableMultiSelect.moved = {
-                below: getModelsFromIndexes(ngModel, indexes.below),
-                above: getModelsFromIndexes(ngModel, indexes.above)
-              };
+              ui.item.sortableMultiSelect.moved = extractGroupedModelsFromIndexes(ngModel, indexes.above, indexes.below);
             });
           }
         },
@@ -185,10 +190,7 @@ angular.module('ui.sortable.multiselection', [])
             // get the models and remove them from the list
             // the code should run in reverse order,
             // so that the indexes will not break
-            var models = {
-              below: getModelsFromIndexes(ngModel, indexes.below),
-              above: getModelsFromIndexes(ngModel, indexes.above)
-            };
+            var models = extractGroupedModelsFromIndexes(ngModel, indexes.above, indexes.below);
           
             // add the models to the list
             Array.prototype.splice.apply(
