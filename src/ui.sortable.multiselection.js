@@ -21,7 +21,7 @@ angular.module('ui.sortable.multiselection', [])
       function fixIndex (oldPosition, newPosition, x) {
         if (oldPosition < x && (newPosition === undefined || (oldPosition < newPosition && x <= newPosition))) {
           return x - 1;
-        } else if (x < oldPosition && (newPosition === undefined || (newPosition < oldPosition && newPosition <= x))) {
+        } else if (x < oldPosition && newPosition !== undefined && newPosition < oldPosition && newPosition <= x) {
           return x + 1;
         }
         return x;
