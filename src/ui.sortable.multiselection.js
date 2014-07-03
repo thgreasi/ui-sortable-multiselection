@@ -6,10 +6,28 @@ angular.module('ui.sortable.multiselection', [])
       return {
         link: function(scope, element/*, attrs*/) {
           element.on('click', function (e) {
+            var $this = angular.element(this);
+
+            var $parent = $this.parent();
+            var parentScope = $parent.scope();
+            parentScope.sortableMultiSelect = parentScope.sortableMultiSelect || {};
+
+            var lastIndex = parentScope.sortableMultiSelect.lastIndex;
+            var index = $this.index();
+
             if (e.ctrlKey || e.metaKey) {
-              var $this = angular.element(this);
+              $this.toggleClass(selectedItemClass);
+            } else if (e.shiftKey && lastIndex !== undefined && lastIndex >= 0) {
+              if (index > lastIndex) {
+                $parent.children().slice(lastIndex, index + 1).addClass(selectedItemClass);
+              } else if(index < lastIndex) {
+                $parent.children().slice(index, lastIndex).addClass(selectedItemClass);
+              }
+            } else {
+              $parent.children('.'+selectedItemClass).removeClass(selectedItemClass);
               $this.toggleClass(selectedItemClass);
             }
+            parentScope.sortableMultiSelect.lastIndex = index;
           });
         }
       };
