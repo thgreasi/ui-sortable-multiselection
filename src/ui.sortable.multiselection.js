@@ -24,7 +24,7 @@ angular.module('ui.sortable.multiselection', [])
                 $parent.children().slice(index, lastIndex).addClass(selectedItemClass);
               }
             } else {
-              $parent.children('.'+selectedItemClass).removeClass(selectedItemClass);
+              $parent.children('.'+selectedItemClass).not($this).removeClass(selectedItemClass);
               $this.toggleClass(selectedItemClass);
             }
             parentScope.sortableMultiSelect.lastIndex = index;
