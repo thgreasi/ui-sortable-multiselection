@@ -99,7 +99,11 @@ angular.module('ui.sortable.multiselection', [])
           for (var prop in sortableOptions) {
             if (sortableOptions.hasOwnProperty(prop)) {
               if (this[prop]) {
-                result[prop] = combineCallbacks(this[prop], sortableOptions[prop]);
+                if (prop === 'helper') {
+                  result.helper = this.helper;
+                } else {
+                  result[prop] = combineCallbacks(this[prop], sortableOptions[prop]);
+                }
               }
             }
           }
