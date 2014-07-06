@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8">
 
-  <title>ui-sortable-multiselection</title>
+  <title>ui-sortable-multiselection connected lists</title>
 
     <link rel="stylesheet" href="css/demo.css" media="screen" type="text/css" />
 
@@ -17,16 +17,23 @@
   <h2>ui-sortable-multiselection</h2>
 
   <div class="floatleft">
-    <div ui-sortable="sortableOptions" ng-model="list" class="list">
-      <div ui-sortable-selectable ng-repeat="item in list" class="item">
+    <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list1" ng-controller="dummyController">
+      <div ui-sortable-selectable class="item" ng-repeat="item in list1">
         {{item.text}}
       </div>
     </div>
-  </div>
+    <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list2" ng-controller="dummyController">
+      <div ui-sortable-selectable class="item" ng-repeat="item in list2">
+        {{item.text}}
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+</div>
 
-  <div class="floatleft" style="margin-left: 20px;">
+  <div class="floatright">
+    <button type="button" ng-click="logModels()">Log Models</button>
     <ul class="list logList">
-      <li ng-repeat="entry in sortingLog track by $index" class="logItem">
+      <li ng-repeat="entry in sortingLog" class="logItem">
         {{entry}}
       </li>
     </ul>
@@ -41,7 +48,7 @@
   <script src="../src/ui.sortable.multiselection.js"></script>
 </div>
 
-  <script src="js/demo.js"></script>
+  <script src="js/demo-connected.js"></script>
 
 </body>
 
