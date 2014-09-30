@@ -16,6 +16,13 @@
   <div ng-app="sortableApp" ng-controller="sortableController" class="container">
   <h2>ui-sortable-multiselection</h2>
 
+  <div>
+    <label>
+      Lock nodes with "2"
+      <input type="checkbox" ng-model="lockNodesWithTwo" />
+    </label>
+  </div>
+
   <div class="floatleft">
     <div ui-sortable="sortableOptions" ng-model="list" class="list">
       <div ui-sortable-selectable ng-repeat="item in list" class="item">

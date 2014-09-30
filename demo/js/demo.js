@@ -17,6 +17,17 @@ myapp.controller('sortableController', function ($scope, uiSortableMultiSelectio
   
   $scope.sortableOptions = {
     helper: uiSortableMultiSelectionMethods.helper,
+    update: function(e, ui) {
+      if ($scope.lockNodesWithTwo) {
+        var movesTwo = ui.item.scope().list
+          .filter(function(x,i) { return ui.item.sortableMultiSelect.indexes.concat(ui.item.sortable.index).indexOf(i) >= 0; })
+          .filter(function(x) { return x.text.indexOf('2') >= 0; })
+          .length;
+        if (movesTwo) {
+          ui.item.sortable.cancel();
+        }
+      }
+    },
     stop: function(e, ui) {
       uiSortableMultiSelectionMethods.stop(e, ui);
 
