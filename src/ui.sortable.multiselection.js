@@ -146,25 +146,29 @@ angular.module('ui.sortable.multiselection', [])
           ui.item.sortableMultiSelect.sourceElement = ui.item.parent();
         },
         update: function(e, ui) {
-          if (ui.item.sortable.received && !ui.item.sortable.isCanceled()) {
-            var scope = ui.item.sortable.droptarget.scope();
+          if (ui.item.sortable.received) {
+            if (!ui.item.sortable.isCanceled()) {
+              var scope = ui.item.sortable.droptarget.scope();
 
-            scope.$apply(function () {
-              var ngModel = scope.$eval(ui.item.sortable.droptarget.attr('ng-model')),
-                  newPosition = ui.item.sortable.dropindex,
-                  models = ui.item.sortableMultiSelect.moved;
+              scope.$apply(function () {
+                var ngModel = scope.$eval(ui.item.sortable.droptarget.attr('ng-model')),
+                    newPosition = ui.item.sortable.dropindex,
+                    models = ui.item.sortableMultiSelect.moved;
 
-              // add the models to the target list
-              Array.prototype.splice.apply(
-                ngModel,
-                [newPosition+ 1, 0]
-                .concat(models.below));
+                // add the models to the target list
+                Array.prototype.splice.apply(
+                  ngModel,
+                  [newPosition+ 1, 0]
+                  .concat(models.below));
 
-              Array.prototype.splice.apply(
-                ngModel,
-                [newPosition, 0]
-                .concat(models.above));
-            });
+                Array.prototype.splice.apply(
+                  ngModel,
+                  [newPosition, 0]
+                  .concat(models.above));
+              });
+            } else {
+              ui.item.sortableMultiSelect.sourceElement.find('> .' + selectedItemClass).show();
+            }
           }
         },
         remove: function(e, ui) {
@@ -182,14 +186,16 @@ angular.module('ui.sortable.multiselection', [])
               // so that the indexes will not break
               ui.item.sortableMultiSelect.moved = extractGroupedModelsFromIndexes(ngModel, indexes.above, indexes.below);
             });
+          } else {
+            ui.item.sortableMultiSelect.sourceElement.find('> .' + selectedItemClass).show();
           }
         },
         stop: function (e, ui) {
+          var sourceElement = ui.item.sortableMultiSelect.sourceElement || ui.item.parent();
           if (!ui.item.sortable.received &&
              // ('dropindex' in ui.item.sortable) &&
              !ui.item.sortable.isCanceled()) {
-            var sourceElement = ui.item.sortableMultiSelect.sourceElement || ui.item.parent(),
-                ngModel = sourceElement.scope().$eval(sourceElement.attr('ng-model')),
+            var ngModel = sourceElement.scope().$eval(sourceElement.attr('ng-model')),
                 oldPosition = ui.item.sortable.index,
                 newPosition = ui.item.sortable.dropindex;
 
@@ -226,6 +232,8 @@ angular.module('ui.sortable.multiselection', [])
               .concat(models.above));
 
             ui.item.parent().find('> .' + selectedItemClass).removeClass('' + selectedItemClass).show();
+          } else if (ui.item.sortable.isCanceled()) {
+            sourceElement.find('> .' + selectedItemClass).show();
           }
         }
       };
