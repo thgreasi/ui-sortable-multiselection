@@ -12,8 +12,6 @@ Provide multiple element sorting in UI-Sortable
 The `ui` argument of the available callbacks gets enriched with some extra properties as specified below:
 
 
-selectedModels
-
 ### selectedIndexes
 Type: [Array](http://api.jquery.com/Types/#Array)<[Integer](http://api.jquery.com/Types/#Integer)>  
 Holds the original indexes of the items dragged.
