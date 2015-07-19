@@ -18,7 +18,7 @@ Holds the original indexes of the items dragged.
 
 ### selectedModels
 Type: [Array](http://api.jquery.com/Types/#Array)<[Object](http://api.jquery.com/Types/#Object)> /`undefined`  
-Holds the JavaScript objects that is used as the model of the dragged items, as specified by the ng-repeat of the [`source`](#source) ui-sortable element and the [`ui.item.sortableMultiSelect.selectedIndexes`](#selectedIndexes) property.
+Holds the JavaScript objects that is used as the model of the dragged items, as specified by the ng-repeat of the [`source`](#source) ui-sortable element and the [`ui.item.sortableMultiSelect.selectedIndexes`](#selectedindexes) property.
 
 
 
