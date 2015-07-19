@@ -151,7 +151,7 @@ angular.module('ui.sortable.multiselection', [])
               var scope = ui.item.sortable.droptarget.scope();
 
               scope.$apply(function () {
-                var ngModel = scope.$eval(ui.item.sortable.droptarget.attr('ng-model')),
+                var ngModel = ui.item.sortable.droptargetModel,
                     newPosition = ui.item.sortable.dropindex,
                     models = ui.item.sortableMultiSelect.moved;
 
@@ -176,7 +176,7 @@ angular.module('ui.sortable.multiselection', [])
             var scope = ui.item.sortableMultiSelect.sourceElement.scope();
 
             scope.$apply(function () {
-              var ngModel = scope.$eval(ui.item.sortableMultiSelect.sourceElement.attr('ng-model')),
+              var ngModel = ui.item.sortable.sourceModel,
                   oldPosition = ui.item.sortable.index;
 
               var indexes = groupIndexes(ui.item.sortableMultiSelect.indexes, oldPosition);
@@ -195,7 +195,7 @@ angular.module('ui.sortable.multiselection', [])
           if (!ui.item.sortable.received &&
              // ('dropindex' in ui.item.sortable) &&
              !ui.item.sortable.isCanceled()) {
-            var ngModel = sourceElement.scope().$eval(sourceElement.attr('ng-model')),
+            var ngModel = ui.item.sortable.sourceModel,
                 oldPosition = ui.item.sortable.index,
                 newPosition = ui.item.sortable.dropindex;
 
