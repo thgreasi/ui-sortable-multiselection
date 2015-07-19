@@ -122,13 +122,18 @@ angular.module('ui.sortable.multiselection', [])
           var selectedElements = item.parent().children('.' + selectedItemClass);
           var selectedSiblings = item.siblings('.' + selectedItemClass);
 
+          var selectedIndexes = angular.element.map(selectedElements, function (element) {
+            return angular.element(element).index();
+          });
+
           // indexes of the selected siblings
           var indexes = angular.element.map(selectedSiblings, function (element) {
             return angular.element(element).index();
           });
 
           item.sortableMultiSelect = {
-            indexes: indexes
+            indexes: indexes,
+            selectedIndexes: selectedIndexes
           };
 
           // Clone the selected items and to put them inside the helper
@@ -144,6 +149,21 @@ angular.module('ui.sortable.multiselection', [])
         },
         start: function(e, ui) {
           ui.item.sortableMultiSelect.sourceElement = ui.item.parent();
+
+          var sourceModel = ui.item.sortable.sourceModel;
+          var indexes = ui.item.sortableMultiSelect.indexes;
+          var selectedIndexes = ui.item.sortableMultiSelect.selectedIndexes;
+          var models = [];
+          var selectedModels = [];
+          for (var i = 0, len = selectedIndexes.length; i < len; i++) {
+            var index = selectedIndexes[i];
+            selectedModels.push(sourceModel[index]);
+            if (indexes.indexOf(index) >= 0) {
+              models.push(sourceModel[index]);
+            }
+          }
+          ui.item.sortableMultiSelect.models = models;
+          ui.item.sortableMultiSelect.selectedModels = selectedModels;
         },
         update: function(e, ui) {
           if (ui.item.sortable.received) {
