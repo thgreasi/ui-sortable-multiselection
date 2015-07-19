@@ -1,7 +1,8 @@
 ui-sortable-multiselection
 ==========================
+[![npm](https://img.shields.io/npm/dm/angular-ui-sortable-multiselection.svg)](https://www.npmjs.com/package/angular-ui-sortable-multiselection)  
 
-Provide multiple element sorting in UI-Sortable
+Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/ui-sortable)
 
 [Simple Demo pen](http://codepen.io/thgreasi/pen/mJAcL)
 
