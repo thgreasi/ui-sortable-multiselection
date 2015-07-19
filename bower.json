@@ -16,7 +16,7 @@
     "package.json"
   ],
   "dependencies": {
-    "angular-ui-sortable": ">=0.12.x"
+    "angular-ui-sortable": ">=0.13.x"
   },
   "devDependencies": {}
 }
