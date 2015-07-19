@@ -83,9 +83,9 @@ angular.module('ui.sortable.multiselection', [])
 
       function combineCallbacks(first,second){
         if(second && (typeof second === 'function')) {
-          return function(e, ui) {
-            first(e, ui);
-            second(e, ui);
+          return function() {
+            first.apply(this, arguments);
+            second.apply(this, arguments);
           };
         }
         return first;
