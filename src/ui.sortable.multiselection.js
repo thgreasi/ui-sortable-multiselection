@@ -9,6 +9,13 @@ angular.module('ui.sortable.multiselection', [])
             var $this = angular.element(this);
 
             var $parent = $this.parent();
+            var jquerySortableCancelOption = $parent.sortable('option', 'cancel');
+
+            // Respect jQuery UI Sortable's cancel property by testing if element matches selector
+            if (jquerySortableCancelOption !== undefined && $this.is(jquerySortableCancelOption)) {
+              return;
+            }
+
             var parentScope = $parent.scope();
             parentScope.sortableMultiSelect = parentScope.sortableMultiSelect || {};
 
