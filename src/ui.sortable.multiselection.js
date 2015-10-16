@@ -10,10 +10,26 @@ angular.module('ui.sortable.multiselection', [])
 
             var $parent = $this.parent();
             var jquerySortableCancelOption = $parent.sortable('option', 'cancel');
+            var jquerySortableHandleOption = $parent.sortable('option', 'handle');
 
             // Respect jQuery UI Sortable's cancel property by testing if element matches selector
             if (jquerySortableCancelOption !== undefined && $this.is(jquerySortableCancelOption)) {
               return;
+            }
+
+            // Mimic jQuery UI Sortable's handle property when determing if an item is selected
+            if (jquerySortableHandleOption) {
+              var validHandle = false;
+              
+              $parent.find('.ui-sortable-handle').find('*').addBack().each(function () {
+                if (this === e.target) {
+                  validHandle = true;
+                }
+              });
+
+              if (!validHandle) {
+                return;
+              }
             }
 
             var parentScope = $parent.scope();
