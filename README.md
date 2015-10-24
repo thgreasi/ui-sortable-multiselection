@@ -8,6 +8,8 @@ Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/
 
 [Connected Lists Demo pen](http://codepen.io/thgreasi/pen/FJrxo)
 
+[Handle Demo pen](http://codepen.io/feus4177/pen/zvWvpY)
+
 ## ui.item.sortableMultiSelect API documentation
 
 The `ui` argument of the available callbacks gets enriched with some extra properties as specified below:
