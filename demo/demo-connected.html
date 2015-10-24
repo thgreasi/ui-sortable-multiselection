@@ -24,12 +24,12 @@
       </label>
     </div>
     <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list1" ng-controller="dummyController">
-      <div ui-sortable-selectable class="item" ng-repeat="item in list1">
+      <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list1">
         {{item.text}}
       </div>
     </div>
     <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list2" ng-controller="dummyController">
-      <div ui-sortable-selectable class="item" ng-repeat="item in list2">
+      <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list2">
         {{item.text}}
       </div>
     </div>

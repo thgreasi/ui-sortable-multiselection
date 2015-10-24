@@ -7,6 +7,7 @@
 
   <title>ui-sortable-multiselection</title>
 
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/demo.css" media="screen" type="text/css" />
 
 </head>
@@ -16,20 +17,14 @@
   <div ng-app="sortableApp" ng-controller="sortableController" class="container">
   <h2>ui-sortable-multiselection</h2>
 
-  <div>
-    <label>
-      Lock nodes with "2"
-      <input type="checkbox" ng-model="lockNodesWithTwo" />
-    </label>
-  </div>
-
-  <div class="floatleft">
-    <div ui-sortable="sortableOptions" ng-model="list" class="list">
-      <div ui-sortable-selectable ng-repeat="item in list" class="item cursor-grab">
-        {{item.text}}
-      </div>
-    </div>
-  </div>
+  <table class="floatleft">
+    <tbody ui-sortable="sortableOptions" ng-model="list">
+      <tr ui-sortable-selectable ng-repeat="item in list">
+        <td class="cursor-grab item"><i class="icon-reorder"></i></td>
+        <td class="item">{{item.text}}</td>
+      </tr>
+    </tbody>
+  </table>
 
   <div class="floatleft" style="margin-left: 20px;">
     <ul class="list logList">
@@ -42,13 +37,13 @@
   <div class="clear"></div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
   <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
   <script src="../src/ui.sortable.multiselection.js"></script>
 </div>
 
-  <script src="js/demo.js"></script>
+  <script src="js/demo-handle.js"></script>
 
 </body>
 
