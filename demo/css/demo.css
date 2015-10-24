@@ -38,7 +38,8 @@ td.item {
   cursor: -webkit-grabbing;
 }
 
-.item.ui-sortable-selected {
+.ui-sortable-selected,
+.ui-sortable-selected > td {
   background-color: yellow;
 }
 /***  Extra ***/
