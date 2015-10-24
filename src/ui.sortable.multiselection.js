@@ -17,11 +17,11 @@ angular.module('ui.sortable.multiselection', [])
               return;
             }
 
-            // Mimic jQuery UI Sortable's handle property when determing if an item is selected
+            // Mimic jQuery UI Sortable's handle property when determining if an item is selected
             if (jquerySortableHandleOption) {
               var validHandle = false;
               
-              $parent.find('.ui-sortable-handle').find('*').addBack().each(function () {
+              $parent.find(jquerySortableHandleOption).find('*').addBack().each(function () {
                 if (this === e.target) {
                   validHandle = true;
                 }
