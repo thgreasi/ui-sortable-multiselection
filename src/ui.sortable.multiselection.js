@@ -51,6 +51,8 @@ angular.module('ui.sortable.multiselection', [])
               $this.toggleClass(selectedItemClass);
             }
             parentScope.sortableMultiSelect.lastIndex = index;
+
+            $parent.trigger('ui-sortable-selectionschanged');
           });
         }
       };
