@@ -23,14 +23,18 @@
         <input type="checkbox" ng-model="lockNodesWithTwo" />
       </label>
     </div>
-    <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list1" ng-controller="dummyController">
-      <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list1">
-        {{item.text}}
+    <div ng-controller="dummyController" class="floatleft">
+      <div ui-sortable="sortableOptions" class="items-container screen" ng-model="list1">
+        <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list1">
+          {{item.text}}
+        </div>
       </div>
     </div>
-    <div ui-sortable="sortableOptions" class="items-container screen floatleft" ng-model="list2" ng-controller="dummyController">
-      <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list2">
-        {{item.text}}
+    <div ng-controller="dummyController" class="floatleft">
+      <div ui-sortable="sortableOptions" class="items-container screen" ng-model="list2">
+        <div ui-sortable-selectable class="item cursor-grab" ng-repeat="item in list2">
+          {{item.text}}
+        </div>
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -47,10 +51,14 @@
 
   <div class="clear"></div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
-  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script>
+  <script src="https://rawgithub.com/angular-ui/ui-sortable/master/src/sortable.js"></script> -->
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+  <script src="../bower_components/angular/angular.js"></script>
+  <script src="../bower_components/angular-ui-sortable/sortable.js"></script>
   <script src="../src/ui.sortable.multiselection.js"></script>
 </div>
 
