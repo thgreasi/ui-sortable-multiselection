@@ -32,10 +32,9 @@ angular.module('ui.sortable.multiselection', [])
               }
             }
 
-            var parentScope = $parent.scope();
-            parentScope.sortableMultiSelect = parentScope.sortableMultiSelect || {};
+            var sortableMultiSelectState = $parent.data('uiSortableMultiSelectionState') || {};
 
-            var lastIndex = parentScope.sortableMultiSelect.lastIndex;
+            var lastIndex = sortableMultiSelectState.lastIndex;
             var index = $this.index();
 
             if (e.ctrlKey || e.metaKey) {
@@ -50,7 +49,15 @@ angular.module('ui.sortable.multiselection', [])
               $parent.children('.'+selectedItemClass).not($this).removeClass(selectedItemClass);
               $this.toggleClass(selectedItemClass);
             }
-            parentScope.sortableMultiSelect.lastIndex = index;
+            sortableMultiSelectState.lastIndex = index;
+            $parent.data('uiSortableMultiSelectionState', sortableMultiSelectState);
+
+            $parent.trigger('ui-sortable-selectionschanged');
+          });
+
+          element.parent().on('$destroy', function() {
+            console.log('destroy');
+            element.parent().removeData('uiSortableMultiSelectionState');
           });
         }
       };
@@ -191,24 +198,20 @@ angular.module('ui.sortable.multiselection', [])
         update: function(e, ui) {
           if (ui.item.sortable.received) {
             if (!ui.item.sortable.isCanceled()) {
-              var scope = ui.item.sortable.droptarget.scope();
+              var ngModel = ui.item.sortable.droptargetModel,
+                  newPosition = ui.item.sortable.dropindex,
+                  models = ui.item.sortableMultiSelect.moved;
 
-              scope.$apply(function () {
-                var ngModel = ui.item.sortable.droptargetModel,
-                    newPosition = ui.item.sortable.dropindex,
-                    models = ui.item.sortableMultiSelect.moved;
+              // add the models to the target list
+              Array.prototype.splice.apply(
+                ngModel,
+                [newPosition+ 1, 0]
+                .concat(models.below));
 
-                // add the models to the target list
-                Array.prototype.splice.apply(
-                  ngModel,
-                  [newPosition+ 1, 0]
-                  .concat(models.below));
-
-                Array.prototype.splice.apply(
-                  ngModel,
-                  [newPosition, 0]
-                  .concat(models.above));
-              });
+              Array.prototype.splice.apply(
+                ngModel,
+                [newPosition, 0]
+                .concat(models.above));
             } else {
               ui.item.sortableMultiSelect.sourceElement.find('> .' + selectedItemClass).show();
             }
@@ -216,19 +219,15 @@ angular.module('ui.sortable.multiselection', [])
         },
         remove: function(e, ui) {
           if (!ui.item.sortable.isCanceled()) {
-            var scope = ui.item.sortableMultiSelect.sourceElement.scope();
+            var ngModel = ui.item.sortable.sourceModel,
+                oldPosition = ui.item.sortable.index;
 
-            scope.$apply(function () {
-              var ngModel = ui.item.sortable.sourceModel,
-                  oldPosition = ui.item.sortable.index;
+            var indexes = groupIndexes(ui.item.sortableMultiSelect.indexes, oldPosition);
 
-              var indexes = groupIndexes(ui.item.sortableMultiSelect.indexes, oldPosition);
-
-              // get the models and remove them from the original list
-              // the code should run in reverse order,
-              // so that the indexes will not break
-              ui.item.sortableMultiSelect.moved = extractGroupedModelsFromIndexes(ngModel, indexes.above, indexes.below);
-            });
+            // get the models and remove them from the original list
+            // the code should run in reverse order,
+            // so that the indexes will not break
+            ui.item.sortableMultiSelect.moved = extractGroupedModelsFromIndexes(ngModel, indexes.above, indexes.below);
           } else {
             ui.item.sortableMultiSelect.sourceElement.find('> .' + selectedItemClass).show();
           }

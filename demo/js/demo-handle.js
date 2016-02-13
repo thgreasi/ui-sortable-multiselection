@@ -1,4 +1,8 @@
-var myapp = angular.module('sortableApp', ['ui.sortable', 'ui.sortable.multiselection']);
+var myapp = angular.module('sortableApp', ['ui.sortable', 'ui.sortable.multiselection'], function ($compileProvider) {
+  if (typeof $compileProvider.debugInfoEnabled === 'function') {
+    $compileProvider.debugInfoEnabled(false);
+  }
+});
 
 
 myapp.controller('sortableController', function ($scope, uiSortableMultiSelectionMethods) {

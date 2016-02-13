@@ -1,6 +1,7 @@
 ui-sortable-multiselection
 ==========================
-[![npm](https://img.shields.io/npm/dm/angular-ui-sortable-multiselection.svg)](https://www.npmjs.com/package/angular-ui-sortable-multiselection)  
+[![npm](https://img.shields.io/npm/dm/angular-ui-sortable-multiselection.svg)](https://www.npmjs.com/package/angular-ui-sortable-multiselection)
+[![debugInfoEnabled(false) Ready Badge](https://rawgit.com/thgreasi/ng-debugInfoDisabled-badges/master/badge1.svg)](https://docs.angularjs.org/guide/production#disabling-debug-data)
 
 Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/ui-sortable)
 
