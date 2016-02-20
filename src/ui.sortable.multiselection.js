@@ -9,6 +9,10 @@ angular.module('ui.sortable.multiselection', [])
             var $this = angular.element(this);
 
             var $parent = $this.parent();
+            var isDisabled = $parent.sortable('option', 'disabled');
+            if (isDisabled){
+              return;
+            }
             var jquerySortableCancelOption = $parent.sortable('option', 'cancel');
             var jquerySortableHandleOption = $parent.sortable('option', 'handle');
 
