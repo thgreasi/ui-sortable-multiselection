@@ -70,6 +70,8 @@ angular.module('ui.sortable.multiselection', [])
   .factory('uiSortableMultiSelectionMethods', [
     'uiSortableMultiSelectionClass',
     function (selectedItemClass) {
+      var showBadge;
+
       function fixIndex (oldPosition, newPosition, x) {
         if (oldPosition < x && (newPosition === undefined || (oldPosition < newPosition && x <= newPosition))) {
           return x - 1;
@@ -141,7 +143,7 @@ angular.module('ui.sortable.multiselection', [])
               }
             }
           }
-
+          showBadge = result.showBadge;
           return result;
         },
         helper: function (e, item) {
@@ -173,7 +175,7 @@ angular.module('ui.sortable.multiselection', [])
           //Calculate the badge number and initialize the badge attributes if dragging multiple elements
           var badgeNumber = selectedIndexes ? selectedIndexes.length : 0;
           var badgeAttributes = '';
-          if (badgeNumber > 1) {
+          if (showBadge && badgeNumber > 1) {
             badgeAttributes = ' class=\'selectionBadge\' data-badge=\'' + badgeNumber + '\' ';
           }
 
