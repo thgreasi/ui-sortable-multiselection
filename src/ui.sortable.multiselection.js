@@ -143,7 +143,7 @@ angular.module('ui.sortable.multiselection', [])
               }
             }
           }
-          uiSelectionCount = result.uiSelectionCount;
+          uiSelectionCount = result['ui-selection-count'];
           return result;
         },
         helper: function (e, item) {
