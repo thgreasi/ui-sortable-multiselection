@@ -172,7 +172,7 @@ angular.module('ui.sortable.multiselection', [])
             selectedIndexes: selectedIndexes
           };
 
-          //Calculate the badge number and initialize the badge attributes if dragging multiple elements
+          //Calculate the selectionCount number and initialize the selectionCount attributes if dragging multiple elements
           var selectionCount = selectedIndexes ? selectedIndexes.length : 0;
           var selectionCountAttributes = '';
           if (uiSelectionCount && selectionCount > 1) {
