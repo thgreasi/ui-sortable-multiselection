@@ -5,7 +5,7 @@ ui-sortable-multiselection
 
 Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/ui-sortable)
 
-[Simple Demo pen with badge](http://codepen.io/vanatallin/pen/zqXzmJ)
+[Simple Demo pen with selection count](http://codepen.io/vanatallin/pen/zqXzmJ)
 
 [Simple Demo pen](http://codepen.io/thgreasi/pen/mJAcL)
 
