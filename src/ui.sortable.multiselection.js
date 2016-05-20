@@ -70,7 +70,7 @@ angular.module('ui.sortable.multiselection', [])
   .factory('uiSortableMultiSelectionMethods', [
     'uiSortableMultiSelectionClass',
     function (selectedItemClass) {
-      var showBadge;
+      var uiSelectionCount;
 
       function fixIndex (oldPosition, newPosition, x) {
         if (oldPosition < x && (newPosition === undefined || (oldPosition < newPosition && x <= newPosition))) {
@@ -143,7 +143,7 @@ angular.module('ui.sortable.multiselection', [])
               }
             }
           }
-          showBadge = result.showBadge;
+          uiSelectionCount = result.uiSelectionCount;
           return result;
         },
         helper: function (e, item) {
@@ -173,10 +173,10 @@ angular.module('ui.sortable.multiselection', [])
           };
 
           //Calculate the badge number and initialize the badge attributes if dragging multiple elements
-          var badgeNumber = selectedIndexes ? selectedIndexes.length : 0;
-          var badgeAttributes = '';
-          if (showBadge && badgeNumber > 1) {
-            badgeAttributes = ' class=\'selectionBadge\' data-badge=\'' + badgeNumber + '\' ';
+          var selectionCount = selectedIndexes ? selectedIndexes.length : 0;
+          var selectionCountAttributes = '';
+          if (uiSelectionCount && selectionCount > 1) {
+            selectionCountAttributes = ' class=\'selectionCount\' data-selection-count=\'' + selectionCount + '\' ';
           }
 
           // Clone the selected items and to put them inside the helper
@@ -187,7 +187,7 @@ angular.module('ui.sortable.multiselection', [])
 
           // Create the helper to act as a bucket for the cloned elements
           var helperTag = item[0].tagName;
-          var helper = angular.element('<' + helperTag + badgeAttributes + ' />');
+          var helper = angular.element('<' + helperTag + selectionCountAttributes + ' />');
           return helper.append(elements);
         },
         start: function(e, ui) {
