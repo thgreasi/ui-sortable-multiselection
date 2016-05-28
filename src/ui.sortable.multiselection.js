@@ -70,6 +70,8 @@ angular.module('ui.sortable.multiselection', [])
   .factory('uiSortableMultiSelectionMethods', [
     'uiSortableMultiSelectionClass',
     function (selectedItemClass) {
+      var uiSelectionCount;
+
       function fixIndex (oldPosition, newPosition, x) {
         if (oldPosition < x && (newPosition === undefined || (oldPosition < newPosition && x <= newPosition))) {
           return x - 1;
@@ -141,7 +143,7 @@ angular.module('ui.sortable.multiselection', [])
               }
             }
           }
-
+          uiSelectionCount = result['ui-selection-count'];
           return result;
         },
         helper: function (e, item) {
@@ -170,6 +172,9 @@ angular.module('ui.sortable.multiselection', [])
             selectedIndexes: selectedIndexes
           };
 
+          //Calculate the selectionCount number and initialize the selectionCount attributes if dragging multiple elements
+          var selectionCount = selectedIndexes ? selectedIndexes.length : 0;
+
           // Clone the selected items and to put them inside the helper
           var elements = selectedElements.clone();
 
@@ -179,6 +184,9 @@ angular.module('ui.sortable.multiselection', [])
           // Create the helper to act as a bucket for the cloned elements
           var helperTag = item[0].tagName;
           var helper = angular.element('<' + helperTag + '/>');
+          if (uiSelectionCount && selectionCount > 1) {
+            helper.addClass('ui-selection-count').attr('data-ui-selection-count',  selectionCount);
+          }
           return helper.append(elements);
         },
         start: function(e, ui) {
