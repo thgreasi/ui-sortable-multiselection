@@ -174,10 +174,6 @@ angular.module('ui.sortable.multiselection', [])
 
           //Calculate the selectionCount number and initialize the selectionCount attributes if dragging multiple elements
           var selectionCount = selectedIndexes ? selectedIndexes.length : 0;
-          var selectionCountAttributes = '';
-          if (uiSelectionCount && selectionCount > 1) {
-            selectionCountAttributes = ' class=\'selectionCount\' data-selection-count=\'' + selectionCount + '\' ';
-          }
 
           // Clone the selected items and to put them inside the helper
           var elements = selectedElements.clone();
@@ -187,7 +183,10 @@ angular.module('ui.sortable.multiselection', [])
 
           // Create the helper to act as a bucket for the cloned elements
           var helperTag = item[0].tagName;
-          var helper = angular.element('<' + helperTag + selectionCountAttributes + ' />');
+          var helper = angular.element('<' + helperTag + '/>');
+          if (uiSelectionCount && selectionCount > 1) {
+            helper.addClass('ui-selection-count').attr('data-ui-selection-count',  selectionCount);
+          }
           return helper.append(elements);
         },
         start: function(e, ui) {
