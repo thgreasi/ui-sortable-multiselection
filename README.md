@@ -15,6 +15,32 @@ Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/
 
 ## ui.item.sortableMultiSelect API documentation
 
+### Allow multi-selection on click
+For better touch device support, use the option 'multiSelectOnClick'. This will allow click/tap to select and deselect individual items instead of requiring a modifier key to be held down.
+
+Example usage:
+
+```javascript
+// set the sortable options
+$scope.sortableOptions = uiSortableMultiSelectionMethods.extendOptions({
+  'multiSelectOnClick': true,
+  start: function() {
+    // ...
+  },
+  stop: function() {
+    // ...
+  }
+});
+```
+
+```html
+<ul class="sortable-list" ui-sortable="sortableOptions" ng-model="items">
+  <li ng-repeat="item in items" class="sortable-item" ui-sortable-selectable>
+    <div class="sortable-item__inner">{item.name}</div>
+  </li>
+</ul>
+```
+
 The `ui` argument of the available callbacks gets enriched with some extra properties as specified below:
 
 
