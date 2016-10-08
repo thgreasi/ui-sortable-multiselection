@@ -13,6 +13,8 @@ Provide multiple element sorting in [UI-Sortable](https://github.com/angular-ui/
 
 [Handle Demo pen](http://codepen.io/feus4177/pen/zvWvpY)
 
+[MultiSelect on Click Demo pen](http://codepen.io/thgreasi/pen/KgoPmY)
+
 ## ui.item.sortableMultiSelect API documentation
 
 ### Allow multi-selection on click
