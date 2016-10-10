@@ -60,7 +60,6 @@ angular.module('ui.sortable.multiselection', [])
           });
 
           element.parent().on('$destroy', function() {
-            console.log('destroy');
             element.parent().removeData('uiSortableMultiSelectionState');
           });
         }
