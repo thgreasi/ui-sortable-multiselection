@@ -258,6 +258,7 @@ angular.module('ui.sortable.multiselection', [])
 
             var draggedElementIndexes = ui.item.sortableMultiSelect.indexes;
             if (!draggedElementIndexes.length) {
+              ui.item.parent().find('> .' + selectedItemClass).removeClass('' + selectedItemClass)
               return;
             }
 
