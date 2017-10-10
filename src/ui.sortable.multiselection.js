@@ -158,6 +158,11 @@ angular.module('ui.sortable.multiselection', [])
                 .removeClass(selectedItemClass);
           }
 
+          // Fixes element with when dragging
+          item.children().each(function () {
+            $(this).width($(this).width());
+          });
+
           var selectedElements = item.parent().children('.' + selectedItemClass);
           var selectedSiblings = item.siblings('.' + selectedItemClass);
 
